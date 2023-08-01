@@ -69,7 +69,6 @@ $(function () {
     const amount = E_18 + '';
 
     try {
-      console.log("Start");
       const result = await getExchangeRate(srcAddress, destAddress, amount);
       const rate = result / E_18;
 
@@ -92,6 +91,8 @@ $(function () {
 
   async function updateCurrentBalance() {
     const accounts = await ethereum.request({ method: 'eth_accounts' });
+    console.log({ accounts });
+    currentAccount = accounts[0];
 
     $('#current_address').text(currentAccount);
 
