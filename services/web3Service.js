@@ -9,11 +9,10 @@ import EnvConfig from "../configs/env";
 //   return new Web3(new Web3.providers.HttpProvider(EnvConfig.RPC_ENDPOINT));
 // }
 export function getWeb3Instance() {
-  if (window.web3) {
+  if (window.web3 && window.web3.currentProvider) {
     return new Web3(window.web3.currentProvider);
   }
-
-  return new Web3(Web3.givenProvider);
+  return new Web3(new Web3.providers.HttpProvider(EnvConfig.RPC_ENDPOINT));
 }
 
 export function getTokenContract(tokenAddress) {
@@ -24,7 +23,6 @@ export function getTokenContract(tokenAddress) {
 export function getExchangeContract() {
   const web3 = getWeb3Instance();
   const contract = new web3.eth.Contract(EnvConfig.EXCHANGE_CONTRACT_ABI, EnvConfig.EXCHANGE_CONTRACT_ADDRESS);
-
   return contract;
 }
 

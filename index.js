@@ -66,11 +66,11 @@ $(function () {
   }
 
   async function updateRate(srcAddress, destAddress) {
-    const amount = E_18 + '';
+    const amount = 1;
 
     try {
       const result = await getExchangeRate(srcAddress, destAddress, amount);
-      const rate = result / E_18;
+      const rate = result;
 
       $('#exchange-rate').text(rate);
     } catch (error) {
@@ -91,7 +91,6 @@ $(function () {
 
   async function updateCurrentBalance() {
     const accounts = await ethereum.request({ method: 'eth_accounts' });
-    console.log({ accounts });
     currentAccount = accounts[0];
 
     $('#current_address').text(currentAccount);
@@ -139,7 +138,6 @@ $(function () {
   $('#import-metamask').on('click', async function () {
     /* DONE: Importing wallet by Metamask goes here. */
     await ethereum.request({ method: 'eth_requestAccounts' });
-
     updateCurrentBalance();
   });
 

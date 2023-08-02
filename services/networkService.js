@@ -82,7 +82,6 @@ export async function exchangeToken(srcAddress, destAddress, srcAmount) {
       destAddress != "0x0000000000000000000000000000000000000000") {
 
       const exchangeAmount = await exchangeContract.methods.exchange(srcAddress, destAddress, (srcAmount * E_18) + '').send({ from: currentAccount });
-      console.log(exchangeAmount);
       return exchangeAmount;
       //Eth => Token
     } else if (destAddress != "0x0000000000000000000000000000000000000000") {
