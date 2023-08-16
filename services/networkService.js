@@ -1,7 +1,7 @@
 import EnvConfig from "../configs/env";
 import { getTokenContract, getExchangeContract, getWeb3Instance } from "./web3Service";
 
-const E_18 = Math.pow(10, 18);
+const ONE_ETHER = Math.pow(10, 18);
 
 export function getSwapABI(data) {
   /*TODO: Get Swap ABI*/
@@ -38,7 +38,6 @@ export async function getAllowance(srcTokenAddress, address, spender) {
   }
 }
 
-/* Get Exchange Rate from Smart Contract */
 export async function getExchangeRate(srcTokenAddress, destTokenAddress, srcAmount) {
   const exchangeContract = getExchangeContract();
   try {
@@ -56,10 +55,10 @@ export async function getTokenBalances(tokenAddress, walletAddress) {
   let balance = -1;
 
   if (tokenAddress == "0x0000000000000000000000000000000000000000") {
-    balance = await web3.eth.getBalance(walletAddress) / E_18;
+    balance = await web3.eth.getBalance(walletAddress) / ONE_ETHER;
   } else {
     const contract = getTokenContract(tokenAddress);
-    balance = await contract.methods.balanceOf(walletAddress).call() / E_18;
+    balance = await contract.methods.balanceOf(walletAddress).call() / ONE_ETHER;
   }
 
   return balance;
@@ -81,20 +80,20 @@ export async function exchangeToken(srcAddress, destAddress, srcAmount) {
     if (srcAddress != "0x0000000000000000000000000000000000000000" &&
       destAddress != "0x0000000000000000000000000000000000000000") {
 
-      const exchangeAmount = await exchangeContract.methods.exchange(srcAddress, destAddress, (srcAmount * E_18) + '').send({ from: currentAccount });
+      const exchangeAmount = await exchangeContract.methods.exchange(srcAddress, destAddress, (srcAmount * ONE_ETHER) + '').send({ from: currentAccount });
       return exchangeAmount;
       //Eth => Token
     } else if (destAddress != "0x0000000000000000000000000000000000000000") {
       const exchangeAmount = await exchangeContract.methods.exchangeEthToToken(destAddress)
         .send({
           from: currentAccount,
-          value: srcAmount * E_18
+          value: srcAmount * ONE_ETHER
         });
 
       return exchangeAmount;
       //Token => Eth
     } else{
-      const exchangeAmount = await exchangeContract.methods.exchangeTokenToEth(srcAddress, (srcAmount * E_18) + '')
+      const exchangeAmount = await exchangeContract.methods.exchangeTokenToEth(srcAddress, (srcAmount * ONE_ETHER) + '')
         .send({from: currentAccount});
 
       return exchangeAmount;
@@ -114,19 +113,19 @@ export async function estimateExchangeGas(srcAddress, destAddress, srcAmount) {
     if (srcAddress != "0x0000000000000000000000000000000000000000" &&
       destAddress != "0x0000000000000000000000000000000000000000") {
 
-      const gas = await exchangeContract.methods.exchange(srcAddress, destAddress, (srcAmount * E_18) + '').estimateGas({ from: currentAccount });
+      const gas = await exchangeContract.methods.exchange(srcAddress, destAddress, (srcAmount * ONE_ETHER) + '').estimateGas({ from: currentAccount });
       console.log(gas);
       return gas * 20000000000;
     } else if (destAddress != "0x0000000000000000000000000000000000000000") {
       const gas = await exchangeContract.methods.exchangeEthToToken(destAddress)
         .estimateGas({
           from: currentAccount,
-          value: srcAmount * E_18
+          value: srcAmount * ONE_ETHER
         });
 
       return gas * 20000000000;
     }else{
-      const gas = await exchangeContract.methods.exchangeTokenToEth(srcAddress, (srcAmount * E_18) + '').estimateGas({ from: currentAccount });
+      const gas = await exchangeContract.methods.exchangeTokenToEth(srcAddress, (srcAmount * ONE_ETHER) + '').estimateGas({ from: currentAccount });
       console.log(gas);
       return gas * 20000000000;
     }
@@ -143,11 +142,11 @@ export async function tranferToken(srcTokenAddress, destAddress, srcAmount) {
     if (srcTokenAddress != "0x0000000000000000000000000000000000000000") {
       const tokenContract = getTokenContract(srcTokenAddress);
 
-      const isSuccess = await tokenContract.methods.transfer(destAddress, (srcAmount * E_18) + '').send({from: currentAccount});
+      const isSuccess = await tokenContract.methods.transfer(destAddress, (srcAmount * ONE_ETHER) + '').send({from: currentAccount});
       return isSuccess;
     } else {
       const web3 = getWeb3Instance();
-      const result = await web3.eth.sendTransaction({from: currentAccount, to: destAddress, value: srcAmount * E_18})
+      const result = await web3.eth.sendTransaction({from: currentAccount, to: destAddress, value: srcAmount * ONE_ETHER})
       return result;
     }
   } catch (error) {
@@ -163,7 +162,7 @@ export async function estimateTranferGas(srcTokenAddress, destAddress, srcAmount
     if (srcTokenAddress != "0x0000000000000000000000000000000000000000") {
       const tokenContract = getTokenContract(srcTokenAddress);
 
-      const gas = await tokenContract.methods.transfer(destAddress, (srcAmount * E_18) + '').estimateGas({ from: currentAccount });
+      const gas = await tokenContract.methods.transfer(destAddress, (srcAmount * ONE_ETHER) + '').estimateGas({ from: currentAccount });
       console.log(gas);
       return gas * 20000000000;
     } else {
@@ -171,7 +170,7 @@ export async function estimateTranferGas(srcTokenAddress, destAddress, srcAmount
       const gas = await web3.eth.estimateGas({
         from: currentAccount,
         to: destAddress,
-        value: srcAmount * E_18
+        value: srcAmount * ONE_ETHER
       })
       return gas * 20000000000;
     }

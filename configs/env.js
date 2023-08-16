@@ -481,7 +481,7 @@ const EnvConfig = {
       "type": "function"
     }
   ],
-  EXCHANGE_CONTRACT_ADDRESS: '0xc5BEE774F2BeCD833eF785d1Ba2D31Ea81D22066',
+  EXCHANGE_CONTRACT_ADDRESS: '0x1Ff64F80555154F7A99d2622a34c314428455374',
   /* END DONE */
 
   TOKENS: [
@@ -494,12 +494,12 @@ const EnvConfig = {
     {
       "name": 'Token1',
       "symbol": 'TK1',
-      address: '0x062De750b17EB665ECf72671333249439e1d19C9',
+      address: '0xff8DF2bf1f382aaa740De7852b7DbDA991AC6699',
     },
     {
       "name": 'Token2',
       "symbol": 'TK2',
-      address: '0x3ccE566cCEdb2FB79353d47a4896c07bD67219ca',
+      address: '0xdB801bd85978019769D855125908a7179787E89C',
     },
     /* END DONE */
     

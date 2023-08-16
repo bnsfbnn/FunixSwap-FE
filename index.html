@@ -36,8 +36,6 @@
           </div>
 
           <p id="current_balance_label">You have: <span id="current_balance">000</span> <span id="current_symbol">ETH</span></p>
-
-
         </div>
 
         <div class="swap__icon"></div>
@@ -50,8 +48,7 @@
                 <span class="selected-target" id="selected-dest-symbol">Loading...</span>
                 <div class="dropdown__triangle"></div>
               </div>
-              <div class="dropdown__content">
-              </div>
+              <div class="dropdown__content"></div>
             </div>
             <div class="input-placeholder">0</div>
           </div>
@@ -60,14 +57,10 @@
         </div>
 
         <div class="button modal-trigger" data-modal-id="confirm-swap-modal" id="swap-button">Swap Now</div>
-
-        
-
-        <p id="current_address_label">Current address: </p>
-        <p id="current_address"></p>
+        <!-- Display current metamask wallet address-->
+        <p class="current_address_label">Current address: </p>
+        <p class="current_address"></p>
       </div>
-
-
 
       <div class="transfer" id="transfer">
         <div class="input-container">
@@ -80,7 +73,7 @@
               </div>
               <div class="dropdown__content"></div>
             </div>
-            <input class="input-item" id="transfer-source-amount" type="text" />
+            <input class="input-item" id="transfer-source-amount" type="text" placeholder="0"/>
           </div>
         </div>
 
@@ -92,6 +85,10 @@
         </div>
 
         <div class="button" id="tranfer-button">Transfer Now</div>
+
+        <!-- Display current metamask wallet address-->
+        <p class="current_address_label">Current address: </p>
+        <p class="current_address"></p>
       </div>
 
       <div class="import-account">
@@ -117,6 +114,7 @@
   </div>
 
   <div class="modal" id="confirm-swap-modal">
+    <span class="close">&times;</span>
     <div class="modal__content">This is the content of Confirm Swap Modal</div>
   </div>
 
