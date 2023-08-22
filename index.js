@@ -28,7 +28,6 @@ $(function () {
     });
 
     $('.dropdown__content').html(dropdownTokens);
-
   }
 
   function initiateSelectedToken(srcSymbol, destSymbol) {
@@ -407,5 +406,91 @@ $(function () {
   $('.modal').on('click', function (e) {
     if (e.target !== this) return;
     $(this).removeClass('modal--active');
+  });
+
+  function initiateSearchDropdown() {
+    let dropdownTokens = '';
+    EnvConfig.TOKENS.forEach((token) => {
+      dropdownTokens += `<div class="token"><i><span class="token-symbol">${token.symbol}</span></i> - <b><span class="token-name">${token.name}</span></b></div>`;
+    });
+
+    $('.token-list').html(dropdownTokens);
+  }
+
+  $('#tokenSearch').on('input', function () {
+    const searchTerm = $('#tokenSearch').val().toLowerCase();
+    const $tokens = $('.token-list').find('.token');
+
+    $tokens.each(function () {
+      const $token = $(this);
+      const tokenName = $token.find('.token-name').text().toLowerCase();
+      const tokenSymbol = $token.find('.token-symbol').text().toLowerCase();
+
+      if (tokenName.includes(searchTerm) || tokenSymbol.includes(searchTerm)) {
+        $token.show();
+      } else {
+        $token.hide();
+      }
+    });
+  });
+
+  $('#src-search-button').on('click', async function () {
+    const modalId = $(this).data('modal-id');
+    $(`#${modalId}`).addClass('modal--active');
+    initiateSearchDropdown();
+    const tokens = $('.token-list').find('.token');
+    tokens.each(function () {
+      const token = $(this);
+      token.on('click', function () {
+        // Handle the click event for the token list item here
+
+        const srcSymbol = token.find('.token-symbol').text();
+        const destSymbol = $('#selected-dest-symbol').text();
+
+        $('.dropdown__item').parent().siblings('.dropdown__trigger').find('#selected-src-symbol').html(srcSymbol);
+
+        const srcToken = findTokenBySymbol(srcSymbol);
+        const destToken = findTokenBySymbol(destSymbol);
+
+        $('#rate-src-symbol').text(srcSymbol);
+        $('#rate-dest-symbol').text(destSymbol);
+
+        updateRate(srcToken.address, destToken.address);
+        const srcAmount = $('#swap-source-amount').val();
+        updateDestAmount(srcToken.address, destToken.address, srcAmount);
+        updateCurrentBalance();
+        $("#search-modal").removeClass('modal--active');
+      });
+    });
+  });
+
+  $('#dest-search-button').on('click', async function () {
+    const modalId = $(this).data('modal-id');
+    $(`#${modalId}`).addClass('modal--active');
+    initiateSearchDropdown();
+    const tokens = $('.token-list').find('.token');
+    tokens.each(function () {
+      const token = $(this);
+      token.on('click', function () {
+        // Handle the click event for the token list item here
+
+        const srcSymbol = $('#selected-src-symbol').text();
+        const destSymbol = token.find('.token-symbol').text();
+
+        $('.dropdown__item').parent().siblings('.dropdown__trigger').find('#selected-dest-symbol').html(destSymbol);
+
+        const srcToken = findTokenBySymbol(srcSymbol);
+        const destToken = findTokenBySymbol(destSymbol);
+
+        $('#rate-src-symbol').text(srcSymbol);
+        $('#rate-dest-symbol').text(destSymbol);
+
+        updateRate(srcToken.address, destToken.address);
+        const srcAmount = $('#swap-source-amount').val();
+        updateDestAmount(srcToken.address, destToken.address, srcAmount);
+        updateCurrentBalance();
+        $("#search-modal").removeClass('modal--active');
+      });
+    });
   });
 });

@@ -6,6 +6,7 @@
   <title>Decentralized Exchange</title>
   <link rel="stylesheet" type="text/css" href="assets/css/main.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,600" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <script src="libraries/jquery-3.4.1.min.js"></script>
 </head>
 
@@ -26,6 +27,9 @@
           <label class="input-title" for="swap-source-amount">From:</label>
           <div class="input-group">
             <div class="dropdown">
+              <button class="search-button modal-trigger" data-modal-id="search-modal" id="src-search-button">
+                <i class="fas fa-search"></i>
+              </button>
               <div class="dropdown__trigger">
                 <span class="selected-target" id="selected-src-symbol">Loading...</span>
                 <div class="dropdown__triangle"></div>
@@ -35,7 +39,8 @@
             <input class="input-item" id="swap-source-amount" type="text" placeholder="0" />
           </div>
 
-          <p id="current_balance_label">You have: <span id="current_balance">000</span> <span id="current_symbol">ETH</span></p>
+          <p id="current_balance_label">You have: <span id="current_balance">000</span> <span
+              id="current_symbol">ETH</span></p>
         </div>
 
         <div class="swap__icon"></div>
@@ -44,6 +49,9 @@
           <div class="input-title">To:</div>
           <div class="input-group">
             <div class="dropdown">
+              <button class="search-button modal-trigger" data-modal-id="search-modal" id="dest-search-button">
+                <i class="fas fa-search"></i>
+              </button>
               <div class="dropdown__trigger">
                 <span class="selected-target" id="selected-dest-symbol">Loading...</span>
                 <div class="dropdown__triangle"></div>
@@ -73,7 +81,7 @@
               </div>
               <div class="dropdown__content"></div>
             </div>
-            <input class="input-item" id="transfer-source-amount" type="text" placeholder="0"/>
+            <input class="input-item" id="transfer-source-amount" type="text" placeholder="0" />
           </div>
         </div>
 
@@ -108,18 +116,27 @@
             <div class="import-account__icon private-key"></div>
             <div class="import-account__name">PRIVATE KEY</div>
           </div>
+
         </div>
       </div>
     </div>
   </div>
-
   <div class="modal" id="confirm-swap-modal">
     <div id="confirm-swap-modal-content" class="modal__content"></div>
   </div>
   <div class="modal" id="confirm-transfer-modal">
     <div id="confirm-transfer-modal-content" class="modal__content"></div>
   </div>
-
+  <div class="modal" id="search-modal">
+    <div id="search-modal-content" class="modal__content">
+      <div class="token-search">
+        <input type="text" id="tokenSearch" placeholder="Search for a token">
+        <div class="custom-hr"></div>
+        <div class="token-list">
+        </div>
+      </div>
+    </div>
+  </div>
   <script src="index.js"></script>
 </body>
 

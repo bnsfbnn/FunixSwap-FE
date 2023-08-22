@@ -68,24 +68,18 @@ export async function estimateExchangeGas(srcAddress, destAddress, srcAmount) {
   const exchangeContract = getExchangeContract();
 
   try {
-    console.log("Vào Hàm");
     if (srcAddress != "0x0000000000000000000000000000000000000000" &&
       destAddress != "0x0000000000000000000000000000000000000000") {
-      console.log("Đổi 2 Token");
       const gas = await exchangeContract.methods.exchange(srcAddress, destAddress, (srcAmount * ONE_ETHER) + '').estimateGas({ from: currentAccount });
-      console.log("Đổi thành công ko ? " + gas);
       return gas * 20000000000;
     } else if (destAddress != "0x0000000000000000000000000000000000000000") {
       const gas = await exchangeContract.methods.exchangeEthToToken(destAddress).estimateGas({ from: currentAccount, value: srcAmount * ONE_ETHER });
       return gas * 20000000000;
     } else {
-      console.log("Đổi 1 Token sang ETH");
       const gas = await exchangeContract.methods.exchangeTokenToEth(srcAddress, (srcAmount * ONE_ETHER) + '').estimateGas({ from: currentAccount });
-      console.log("Đổi thành công ko ? " + gas);
       return gas * 20000000000;
     }
   } catch (error) {
-    console.log("Looix");
     console.log(error);
   }
 }
