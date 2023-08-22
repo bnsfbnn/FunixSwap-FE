@@ -84,7 +84,7 @@
           </div>
         </div>
 
-        <div class="button" id="tranfer-button">Transfer Now</div>
+        <div class="button modal-trigger" data-modal-id="confirm-transfer-modal" id="tranfer-button">Transfer Now</div>
 
         <!-- Display current metamask wallet address-->
         <p class="current_address_label">Current address: </p>
@@ -114,8 +114,10 @@
   </div>
 
   <div class="modal" id="confirm-swap-modal">
-    <span class="close">&times;</span>
-    <div class="modal__content">This is the content of Confirm Swap Modal</div>
+    <div id="confirm-swap-modal-content" class="modal__content"></div>
+  </div>
+  <div class="modal" id="confirm-transfer-modal">
+    <div id="confirm-transfer-modal-content" class="modal__content"></div>
   </div>
 
   <script src="index.js"></script>
